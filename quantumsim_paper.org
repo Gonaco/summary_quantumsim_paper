@@ -28,8 +28,8 @@
 | Readout infidelity                 | $\epsilon_{RO}$          | 5e-3       |                                                                                                                                                                  |
 | Physical qubit Fidelity            | $\mathcal{F}_{phys} (t)$ | -          | $\mathcal{F}_{phys} (t) = \frac{1}{6}\left(1 + e^{-\frac{t}{T_1}}\right) + \frac{1}{3}\left(1 + e^{-t\left(\frac{1}{2 T_1} + \frac{1}{T_{\phi}}\right)} \right)$ |
 | Physical qubit error rate          | $\epsilon_{phys}$        | -          | $\epsilon_{phys} = - \tau_{circuit} \frac{d \mathcal{F}_{phys} (t)}{dt} \textbar_{t=0}=\frac{\tau_{circuit}}{3 T_1}+\frac{\tau_{circuit}}{3 T_{\phi}}$           |
-| In-axis rotation error             | $p_{axis}$               | 1e-4       | ? Decay corresponding to shrinking along the y axis because of the single-qubit gates depolarizing noise                                                         |
-| In-plane rotation error            | $p_{plane}$              | 5e-4       | ? Decay corresponding to shrinking along the x and z axis because of the single-qubit gates depolarizing noise                                                   |
+| In-axis rotation error             | $p_{axis}$               | 1e-4       | Decay corresponding to shrinking along the y axis because of the single-qubit gates depolarizing noise                                                           |
+| In-plane rotation error            | $p_{plane}$              | 5e-4       | Decay corresponding to shrinking along the x and z axis because of the single-qubit gates depolarizing noise                                                     |
 |------------------------------------+--------------------------+------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 #+TBLFM:
 
@@ -155,6 +155,13 @@ During a quantum algorithm, "transmons are repeatedly moved in frequency away fr
 
 As one could see in the figures 4 and 5 from the Supplemental information, a little over-rotation  caused by inaccurate calibration of the flux pulse in a single- or two-qubit gate translates in a huge increase of the $\epsilon_L$.
 
+
+* Effects not taking into account
+
+They use a simple model for the CZ errors.
+They neglect leakage (previous experiments have reduced leakage probability per CZ to $\approx$ 0.3%).
+Of course this simplification is also in *quantumsim*.
+
 * The quantumsim simulation package
 
 "Quantumsim performs calculations on density matrices utilizing a graphics processing unit in a standard desktop computer [...]
@@ -164,7 +171,8 @@ One-qubit and two- qubit gates are applied to the density matrix as completely p
 Qubit measurements are simulated as projective and following the Born rule, with projection probabilities given by the squared overlap of the input state with the measurement basis states. In order to capture empirical measurement errors, we implement a black-box measurement model by sandwiching the measurement between idling processes. After measuring some qubit they remove that qubit from the density matrix.
 
 
-* Decoder Upper Bound explanation                                  :noexport:
+* Observations I find Interesting
+** Decoder Upper Bound explanation                                :noexport:
 
 "We obtain the probability of a final measurement falling within each coset by summing the probabilities from the diagonal of the reduced density matrix of the data qubits in the Z-basis.
 It contains the probability distribution for the 2^9 = 512 different possible measurement outcomes of the data qubits [...]
@@ -184,14 +192,17 @@ We do not expect that any decoder can actually achieve this upper bound".
 
 
 
-* Optimization of logical error rates
+** Optimization of logical error rates
+
+In Fig. [[fig:meas_t_optim]] one can see that the optimal time for measuring is 280 ns.
+
 #+caption: Measure time optimization based on the SC-17 logical error rate. Optimal $\tau_m = 280$ ns
 #+NAME: fig:meas_t_optim
 #+ATTR_LATEX: :width 0.7\textwidth
 [[file:measure_t_optimization.png]]
 
 
-* Projected improvement with advances in quantum hardware
+** Projected improvement with advances in quantum hardware
 
 - Memory figure of merit ($\gamma_m = \frac{\epsilon_{phys}}{\epsilon_{L}}$). How close are $\epsilon_{phys}$ and $\epsilon_{L}$. Metric to check how good the error correction is.
 
@@ -199,20 +210,13 @@ We do not expect that any decoder can actually achieve this upper bound".
 
 - A value of $T_1 > 80 \mu s$ for planar transmons is emerging.
 
-* Other observations
+** Other observations
 
 The following statements are fairly general:
 
 - "Small quasi-static qubit errors are suppressed by the repeated measurements"
-- If either the ancilla error rate ($\epsilon_{anc}$) or the \epsilon_{RO} are bigger than $\epsilon_{phys}$
+- If either the ancilla error rate ($\epsilon_{anc}$) or the \epsilon_{RO} are bigger than $\epsilon_{phys}$, $\epsilon_L$ becomes independent of both $\epsilon_{RO}$ and $\epsilon_{anc}$
 - "Optimal cycle parameters for logical error rates per cycle and per unit time are not the same. This implies that logical qubits functioning as quantum memory should be treated differently to those being used for computation"
-
-
-* Effects not taking into account
-
-They use a simple model for the CZ errors.
-They neglect leakage (previous experiments have reduced leakage probability per CZ to $\approx$ 0.3%)
-Of course this simplification is also in *quantumsim*.
 
 
 
@@ -223,40 +227,65 @@ Of course this simplification is also in *quantumsim*.
 
 - What is the depletion time?
 - I do not understand the Inset in Fig. [[fig:meas_t_optim]]
-- What is the difference between qubits used for quantum memory and quantum computation? In our case we consider both at the same time, isn't it?
+- What is the difference between qubits used for quantum memory and quantum computation? In our case we consider just computation, isn't it?
+- Surface code is good for Quantum Memory. Which code is good for Quantum Computation?
 - Why do we consider that the measurement time is 300 ns instead of 280 ns, that is the optimum time for logical qubit error rate?
 - Study the optimum times for each gates to minimize the physical qubit error rate
 - At some point $T_{\phi} = \infty$ is mentioned. Is it possible to clean all the dephasing white-noise.
 - Is the Y rotation gates the only ones affected by the dephasing noise?
 - +What is the flux noise?+ $\to$ "Shifting the transmon from its sweetspot $f_{q,max}$ to a lower frequency $f_q (t)$ makes it first-order sensitive to flux noise"
 - What are the quasi-static qubit errors?
-- Does the $R_{dep}$ parameter mean that the polarizing model is included?
+- +Does the $R_{dep}$ parameter mean that the depolarizing model is included?+ $\to$ I would say so. But only for the single-qubit gates
 - +Is the $p_{\phi, photon}$ summed to the $p_{\phi}$ in the $R_{\Lambda_{T_{\phi}}}$ or how is it done?+ $\to$ is the dephase at the beginning of the measurement model (Fig. [[fig:meas_model]])
 - What is an adiabatic gate?
 - I do not understand anything in the measurement.
   - What is $\epsilon_i^{m,o}$, $a$ and $b$
   - Are the ignored effects during measurements important for us? Do not think so.
 - Quantumsim is able to work no taking into account the surface code, isn't it?
-- Surface code is good for Quantum Memory. Which code is good for Quantum Computation?
-- Is this error model the one that they use in quantumsim?
+- Is this error model the one that they use in quantumsim? Are all the parameters ready or should I look for add some of them?
 - "Ancillas are measured at the end of each cycle, and thus not entangled with the rest of the system". Is this due to the circuit they are using or quantumsim works like that in general
   
 
 * Ideas
 
+** The physical error rate is related with the depth of a circuit
 
+Considering any quantum circuit, different from the stabilizer circuit from the Surface Code cycle with the next parameters:
 
-** Maximum depth given a $\epsilon_{phys}$
 
 #+ATTR_LATEX: :align lr
 | Depth:                               | $d$                                                                                  |
 | Cycle time (minimum operation time): | $T_{cycle}$                                                                          |
 | Circuit time:                        | $\tau_{circuit} = d \times T_{cycle}$                                                |
-| Physical qubit error rate:           | $\epsilon_{phys} = \frac{d \times T_{cycle}}{3} \frac{T_{\phi} + T_1}{T_{\phi} T_1}$ |
+# | Physical qubit error rate:           | $\epsilon_{phys} = \frac{d \times T_{cycle}}{3} \frac{T_{\phi} + T_1}{T_{\phi} T_1}$ |
+
+# As soon as the Surface Code cycle induces a physical error rate $\epsilon_{phys} = - \tau_{circuit} \frac{d \mathcal{F}_{phys} (t)}{dt} \textbar_{t=0}=\frac{\tau_{circuit}}{3 T_1}+\frac{\tau_{circuit}}{3 T_{\phi}}$
+Taking into account the physical error rate function defined in Table 1, we could define the physical qubit error rate of the SC chips for any quantum circuit as:
+
+$$\epsilon_{phys} = \frac{d \times T_{cycle}}{3} \frac{T_{\phi} + T_1}{T_{\phi} T_1}$$
+
+** Maximum depth given a $\epsilon_{phys}$
 
 Given a maximum error rate for the qubits ($\epsilon_{phys}^{\uparrow}$) as an upper bound, the maximum depth of the circuit would be:
 
 $$d^{\uparrow} = \frac{3 \epsilon_{phys}^{\uparrow}}{T_{cycle}} \frac{T_{\phi} T_1}{T_{\phi} + T_1}$$
+
+Where any $d > d^{\uparrow}$ will have a physical error rate bigger than the desired one ($\epsilon_{phys} > \epsilon_{phys}^{\uparrow}$).
+
+** Quantum Volume in relationship with the maximum depth          :noexport:
+
+The device Quantum Volume and the algorithm's one are defined as follows:
+
+$$V_Q^d = \max_{n' \le N} \min \left[ n',\frac{1}{n' \epsilon_{eff} (n')}\right]^2$$
+
+$$V_Q^a =  n \times d$$
+
+An algorithm would be runnable in some device if $V_Q^d > V_Q^a$.
+The algorithm's Quantum Volume adapted for the Leo's superconducting chips would follow the next rule:
+
+$$V_Q^a = n \frac{3 \epsilon_{phys}}{T_{cycle}} \frac{T_{\phi} T_1}{T_{\phi} + T_1}$$
+
+
 
 * BIB                                                                :ignore:
 
