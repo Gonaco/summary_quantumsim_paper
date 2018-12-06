@@ -1,4 +1,4 @@
-% Created 2018-12-06 Thu 11:19
+% Created 2018-12-06 Thu 14:11
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -37,10 +37,10 @@
 
 
 \section{Error model parameters}
-\label{sec:orgd322b2c}
+\label{sec:orged1c232}
 
 \begin{table}[htbp]
-\caption{\label{tab:org0d5a230}
+\caption{\label{tab:orgec18955}
 Main error model parameters for simulation}
 \centering
 \tiny
@@ -67,7 +67,7 @@ In-plane rotation error & \(p_{plane}\) & 5\,(-4) & Decay corresponding to shrin
 \end{table}
 
 \section{Error models}
-\label{sec:org657cef9}
+\label{sec:orgb8ad1c2}
 
 In the quantumsim module, all gates are applied in the Pauli transfer matrix representation:
 
@@ -76,13 +76,13 @@ $$(R_{\Lambda})_{ij} = \frac{1}{2} Tr(\sigma_i \Lambda \sigma_j)$$
 where \(\sigma_i\) are the Pauli operators: \(\sigma_0 = I\), \(\sigma_1 = X\), \(\sigma_2 = Y\), \(\sigma_3 = Z\)
 
 \subsection{Qubit Idling}
-\label{sec:org65ee3ab}
+\label{sec:orgb2a01a0}
 
 While idling for a time \(t\), a transmon in \(|1\rangle\) or in superposition could relax to \(|0\rangle\) or acquire random quantum phase shifts due to \(1/f\) noise sources (flux noise) or others.
 The dephasing effect only appears in a superposition state.
 
 \subsubsection{Amplitude-phase damping model}
-\label{sec:orgae167c2}
+\label{sec:org8355c85}
 
 $$R_{\Lambda_{T_1}} = \begin{bmatrix}
  1 & 0 & 0 & 0 \\
@@ -102,14 +102,14 @@ $$R_{\Lambda_{T_{\phi}}} = \begin{bmatrix}
 with \(p_1 = 1 - e^{-\frac{t}{T_1}}\) and \(p_{\phi} = 1 - e^{-\frac{t}{T_{\phi}}}\) that are the probabilities for relaxation and pure dephasing, respectively.
 
 \subsubsection{Qubit idling}
-\label{sec:org475611a}
+\label{sec:org74bf339}
 
 Idling for a duration \(t\):
 
 $$R_{AP (t)} = R_{\Lambda_{T_1}} R_{\Lambda_{T_{\phi}}}$$
 
 \subsection{Single-qubit \(R_y(\pi /2)\) rotations}
-\label{sec:org055aa8c}
+\label{sec:org98d90a2}
 
 "Single-qubit gates [\ldots{}] errors can mostly be attributed to Markovian noise. [\ldots{}] we thus model these errors as Markovian".
 
@@ -132,7 +132,7 @@ $$R_{dep} = \begin{bmatrix}
 and \(R_{R_y (\pi/2)}'\) is the Pauli transfer matrix describing the theoretical \(\pi /2\) rotation along the y axis.
 
 \subsection{CZ gates}
-\label{sec:org060418f}
+\label{sec:org6a2e36e}
 
 "The C-Z gate is achieved by flux pulsing a transmon into the \(|11\rangle \leftrightarrow |02\rangle\) avoided crossing with another, where the 2 denotes the second-excited state of the fluxed transmon.
 Holding the transmons here for \(\tau_{g,2Q}\) causes the probability amplitudes of \(|01\rangle\) and \(|11\rangle\) to acquire phases[\ldots{}]
@@ -141,16 +141,16 @@ Our full (but simplistic) model of the CZ gate consists of an instantaneous CZ g
 
 
 \subsection{Measurement}
-\label{sec:orgf77c895}
+\label{sec:org4213b23}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\textwidth]{measure_model.png}
-\caption{\label{fig:orgf1b305a}
+\caption{\label{fig:orgba61b53}
 The model for measurements consists of a dephasing of the qubit followed by a period of decay and excitation with probability \(p_{\uparrow / \downarrow}^{(1)}\). At this point, the qubit state is sampled. The sampling result is subject to a declaration error \(\epsilon_{RO}\), and the qubit state is subject to further decay or excitation with probabilities \(p_{\uparrow / \downarrow}^{(2)}\) before the end of the measurement block}
 \end{figure}
 
-The initial dephasing step in the measurement model (Fig. \ref{fig:orgf1b305a}) occurs due to the \hyperref[sec:org0b738db]{photon decay} effect.
+The initial dephasing step in the measurement model (Fig. \ref{fig:orgba61b53}) occurs due to the \hyperref[sec:org1486b6c]{photon decay} effect.
 
 "We find that the readout errors \(\epsilon_{RO}^{|i\rangle}\) are almost independent of the qubit state \(|i\rangle\), and so we describe them with a single readout error parameter \(\epsilon_{RO}\)".
 The outcome-independent declaration error of \(\epsilon_{RO} = \epsilon_{RO}^{1} = \epsilon_{RO}^{0} = 0.15 \%\) is extracted from experiments. 
@@ -158,13 +158,13 @@ The outcome-independent declaration error of \(\epsilon_{RO} = \epsilon_{RO}^{1}
 They ignore effects leading to measurement-induced mixing and non-linearity of the readout resonator, as well as residual photon numbers.
 
 \subsection{Photon decay}
-\label{sec:org0b738db}
+\label{sec:org1486b6c}
 In the presence of photons in a readout resonator, the coupled qubit is affected suffering a \(p_{\phi, photon}\) dephasing.
 This dephasing is present whenever the coupled qubit is brought into superposition before the readout resonator has returned to the vacuum state following the last measurement.
 This dephasing is then implemented via the same Pauli transfer matrix as \(R_{\Lambda_{T_{\phi}}}\).
 
 \subsection{Flux Noise}
-\label{sec:orgcc4a1e5}
+\label{sec:org9a49049}
 
 During a quantum algorithm, "transmons are repeatedly moved in frequency away from their sweetspot using flux pulses, either to implement a C-Z gate or to avoid one. Away from the sweetspot, transmons become first-order sensitive to flux noise, which causes an additional random phase shift."
 
@@ -177,14 +177,14 @@ As one could see in the figures 4 and 5 from the Supplemental information, a lit
 
 
 \section{Effects not taking into account}
-\label{sec:orgfa82f1d}
+\label{sec:orgf89d871}
 
 They use a simple model for the CZ errors.
 They neglect leakage (previous experiments have reduced leakage probability per CZ to \(\approx\) 0.3\%).
 Of course this simplification is also in \textbf{quantumsim}.
 
 \section{The quantumsim simulation package}
-\label{sec:org5a6d666}
+\label{sec:org27a17c3}
 
 "Quantumsim performs calculations on density matrices utilizing a graphics processing unit in a standard desktop computer [\ldots{}]
 
@@ -194,22 +194,22 @@ Qubit measurements are simulated as projective and following the Born rule, with
 
 
 \section{Observations I find Interesting}
-\label{sec:org36c9497}
+\label{sec:org75b6058}
 \subsection{Optimization of logical error rates}
-\label{sec:org857c2cf}
+\label{sec:org1d7ea28}
 
-As they explain in the paper and one can see in Fig. \ref{fig:orgb9bdeb3}, they find that the optimal measuring time for the minimum \(\epsilon_L\) is 280 ns.
+As they explain in the paper and one can see in Fig. \ref{fig:orgf524cbc}, they find that the optimal measuring time for the minimum \(\epsilon_L\) is 280 ns.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.7\textwidth]{measure_t_optimization.png}
-\caption{\label{fig:orgb9bdeb3}
+\caption{\label{fig:orgf524cbc}
 Measure time optimization based on the SC-17 logical error rate. Optimal \(\tau_m = 280\) ns}
 \end{figure}
 
 
 \subsection{Projected improvement with advances in quantum hardware}
-\label{sec:org32c7cdc}
+\label{sec:orgda06107}
 
 \begin{itemize}
 \item Memory figure of merit (\(\gamma_m = \frac{\epsilon_{phys}}{\epsilon_{L}}\)). How close are \(\epsilon_{phys}\) and \(\epsilon_{L}\). Metric to check how good the error correction is.
@@ -220,7 +220,7 @@ Measure time optimization based on the SC-17 logical error rate. Optimal \(\tau_
 \end{itemize}
 
 \subsection{Other observations}
-\label{sec:org6a1a221}
+\label{sec:orgaa84f8f}
 
 The following statements are fairly general:
 
@@ -233,10 +233,10 @@ The following statements are fairly general:
 
 
 \section{Doubts}
-\label{sec:org26f8be2}
+\label{sec:org219952a}
 \begin{itemize}
 \item What is the depletion time?
-\item I do not understand the Inset in Fig. \ref{fig:orgb9bdeb3}
+\item I do not understand the Inset in Fig. \ref{fig:orgf524cbc}
 \item What is the difference between qubits used for quantum memory and quantum computation? In our case we consider just computation, isn't it?
 \item Surface code is good for Quantum Memory. Which code is good for Quantum Computation?
 \item Why do we consider that the measurement time is 300 ns instead of 280 ns, that is the optimum time for logical qubit error rate?
@@ -246,8 +246,8 @@ The following statements are fairly general:
 \item \sout{What is the flux noise?} \(\to\) "Shifting the transmon from its sweetspot \(f_{q,max}\) to a lower frequency \(f_q (t)\) makes it first-order sensitive to flux noise"
 \item What are the quasi-static qubit errors?
 \item \sout{Does the \(R_{dep}\) parameter mean that the depolarizing model is included?} \(\to\) I would say so
-\item What is the \(\delta_{\phi}\)
-\item \sout{Is the \(p_{\phi, photon}\) summed to the \(p_{\phi}\) in the \(R_{\Lambda_{T_{\phi}}}\) or how is it done?} \(\to\) is the dephase at the beginning of the measurement model (Fig. \ref{fig:orgf1b305a})
+\item \sout{What is the \(\delta_{\phi}\)} \(\to\) It is the qubit phase error. It could come from single- (\(\delta_{\phi_{1Q}}\)) o two-qubit gates (\(\delta_{\phi_{2Q}}\))
+\item \sout{Is the \(p_{\phi, photon}\) summed to the \(p_{\phi}\) in the \(R_{\Lambda_{T_{\phi}}}\) or how is it done?} \(\to\) is the dephase at the beginning of the measurement model (Fig. \ref{fig:orgba61b53})
 \item What is an adiabatic gate?
 \item I do not understand anything in the measurement.
 \begin{itemize}
@@ -261,10 +261,10 @@ The following statements are fairly general:
 
 
 \section{Ideas}
-\label{sec:org613edb0}
+\label{sec:org08646ba}
 
 \subsection{The physical error rate is related with the depth of a circuit}
-\label{sec:orgf6f3982}
+\label{sec:org1907517}
 
 Considering any quantum circuit, different from the stabilizer circuit from the Surface Code cycle with the next parameters:
 
@@ -282,7 +282,7 @@ Taking into account the physical error rate function defined in Table 1, we coul
 $$\epsilon_{phys} = \frac{d \times T_{cycle}}{3} \frac{T_{\phi} + T_1}{T_{\phi} T_1}$$
 
 \subsection{Maximum depth given a \(\epsilon_{phys}\)}
-\label{sec:org1599993}
+\label{sec:orgd6b41e6}
 
 Given a maximum error rate for the qubits (\(\epsilon_{phys}^{\uparrow}\)) as an upper bound, the maximum depth of the circuit would be:
 
