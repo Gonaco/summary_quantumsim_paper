@@ -235,7 +235,8 @@ The following statements are fairly general:
 - Is the Y rotation gates the only ones affected by the dephasing noise?
 - +What is the flux noise?+ $\to$ "Shifting the transmon from its sweetspot $f_{q,max}$ to a lower frequency $f_q (t)$ makes it first-order sensitive to flux noise"
 - What are the quasi-static qubit errors?
-- +Does the $R_{dep}$ parameter mean that the depolarizing model is included?+ $\to$ I would say so. But only for the single-qubit gates
+- +Does the $R_{dep}$ parameter mean that the depolarizing model is included?+ $\to$ I would say so
+- What is the $\delta_{\phi}$
 - +Is the $p_{\phi, photon}$ summed to the $p_{\phi}$ in the $R_{\Lambda_{T_{\phi}}}$ or how is it done?+ $\to$ is the dephase at the beginning of the measurement model (Fig. [[fig:meas_model]])
 - What is an adiabatic gate?
 - I do not understand anything in the measurement.
