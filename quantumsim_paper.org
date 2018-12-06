@@ -194,7 +194,7 @@ We do not expect that any decoder can actually achieve this upper bound".
 
 ** Optimization of logical error rates
 
-In Fig. [[fig:meas_t_optim]] one can see that the optimal time for measuring is 280 ns.
+As they explain in the paper and on can see in Fig. [[fig:meas_t_optim]], they find that the optimal measuring time for the minimum $\epsilon_L$ is 280 ns.
 
 #+caption: Measure time optimization based on the SC-17 logical error rate. Optimal $\tau_m = 280$ ns
 #+NAME: fig:meas_t_optim
